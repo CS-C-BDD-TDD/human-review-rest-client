@@ -17,6 +17,14 @@ Building the API client library requires:
 1. Java 1.7+
 2. Maven/Gradle
 
+## Serenity Tests:
+
+Use this command to run all the serenity tests:
+
+```bash
+mvn clean -Dtest=gov.dhs.nppd.humanreview.SerenityTest -Dhuman.review.rest.url=http://localhost:8080/api/v1 test
+```
+
 ## Installation
 
 To install the API client library to your local Maven repository, simply execute:
