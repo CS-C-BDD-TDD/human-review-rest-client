@@ -30,13 +30,15 @@ public class ApiCaller {
 	}
 
 	@Step
-	public ListOfHumanReviewItems get_human_pending_list() {
+	public ListOfHumanReviewItems get_human_pending_list(String authenticatedToken) {
 		ApiClient apiClient = new ApiClient();
 		apiClient.setBasePath(System.getProperty("human.review.rest.url"));
 
+		apiClient.addDefaultHeader("token", authenticatedToken);
+
 		api.setApiClient(apiClient);
 		try {
-			return api.humanreviewPendingGetWithHttpInfo().getData();
+			return api.humanreviewPendingGet();
 		} catch (ApiException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

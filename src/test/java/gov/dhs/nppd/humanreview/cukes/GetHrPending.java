@@ -1,6 +1,8 @@
 package gov.dhs.nppd.humanreview.cukes;
 
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.core.IsNull.notNullValue;
 
 import java.util.List;
@@ -30,11 +32,14 @@ public class GetHrPending {
 
 	@When("^I retrieve the pending list$")
 	public void i_retrieve_the_pending_list() throws Exception {
-		this.listofPending = apiCaller.get_human_pending_list();
+
+		this.listofPending = apiCaller.get_human_pending_list(apiCaller.calls_userPut_method(
+				System.getProperty("hr.regular.username"), System.getProperty("hr.regular.password")));
 	}
 
 	@Then("^The list should not be empty$")
 	public void the_list_should_not_be_empty() throws Exception {
 		assertThat(listofPending, notNullValue());
+		assertThat(listofPending, not(empty()));
 	}
 }
