@@ -1,20 +1,15 @@
 package gov.dhs.nppd.humanreview.cukes;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.openapitools.client.ApiClient;
-import org.openapitools.client.ApiException;
 import org.openapitools.client.model.HumanReviewItem;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import gov.dhs.nppd.humanreview.serenity.ApiCaller;
-import net.thucydides.core.annotations.Step;
+import gov.dhs.nppd.humanreview.serenity.Verifier;
 import net.thucydides.core.annotations.Steps;
 
 public class UpdateHRItem {
@@ -22,7 +17,13 @@ public class UpdateHRItem {
 	private HumanReviewItem hrItem;
 	@Steps
 	ApiCaller apiCaller;
+
 	private String authToken;
+
+	@Steps
+	private Verifier verifier;
+	private String expectedStatus;
+	private String expectedAction;
 
 	@Given("^I have an existing Human Review Item with the following information:$")
 	public void i_have_an_existing_Human_Review_Item_with_the_following_information(List<HumanReviewItem> hrItems)
@@ -57,18 +58,23 @@ public class UpdateHRItem {
 	@When("^I edit the field value to \"([^\"]*)\"$")
 	public void i_edit_the_field_value_to(String acceptedValue) throws Exception {
 		apiCaller.edit_field_value(authToken, hrItem, acceptedValue);
+		expectedStatus = "Edited";
+		expectedAction = "Edit";
 	}
 
 	@When("^I update Not PII field value to \"([^\"]*)\"$")
 	public void i_update_Not_PII_field_value_to(String acceptedValue) throws Exception {
 		apiCaller.not_pii(authToken, hrItem, acceptedValue);
+		expectedStatus = "Not PII";
+		expectedAction = "Not PII";
 	}
-	
+
 	@When("^I update Confirm Risk field value to \"([^\"]*)\"$")
 	public void i_update_Confirm_Risk_field_value_to(String acceptedValue) throws Exception {
 		apiCaller.confirm_risk(authToken, hrItem, acceptedValue);
+		expectedStatus = "Confirmed";
+		expectedAction = "Confirm Risk";
 	}
-
 
 	@Then("^the item should be as follow:$")
 	public void the_item_should_be_as_follow(List<HumanReviewItem> expectedHrItems) throws Exception {
@@ -87,7 +93,9 @@ public class UpdateHRItem {
 
 		apiCaller.edit_field_value(authToken, hrItem, hrItem.getFieldValue());
 
-		assertThat(actualHrItems.get(0).getFieldValue().replaceAll("\n", ""),
-				equalTo(expectedHrItems.get(0).getFieldValue()));
+		verifier.checks_if_equals(actualHrItems.get(0).getFieldValue().replaceAll("\n", ""),
+				expectedHrItems.get(0).getFieldValue());
+		verifier.checks_if_equals(actualHrItems.get(0).getStatus(), expectedStatus);
+		verifier.checks_if_equals(actualHrItems.get(0).getAction().toString(), expectedAction);
 	}
 }
