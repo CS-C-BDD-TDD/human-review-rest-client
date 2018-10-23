@@ -17,7 +17,7 @@ Building the API client library requires:
 1. Java 1.7+
 2. Maven/Gradle
 
-## Serenity Tests and Reports:
+## Serenity Tests and Reports: (manually & Openshift Pipeline)
 
 Use this command to run all the serenity tests:
 
@@ -29,6 +29,7 @@ Then, you want to generate a Serenity report using this command:
 ```bash
 mvn -DskipTests verify
 ```
+Then, the report can be view (like a website) under folder `target/site/serenity`. This folder contains the index.html file so that it can be launched and viewed by a browser.
 
 ## Installation
 
