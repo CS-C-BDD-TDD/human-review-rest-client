@@ -93,8 +93,24 @@ public class ApiCaller {
 		} catch (ApiException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
+	public void redact_field(String authToken, HumanReviewItem hrItem) {
+		ApiClient apiClient = new ApiClient();
+		apiClient.setBasePath(System.getProperty("human.review.rest.url"));
+
+		apiClient.addDefaultHeader("token", authToken);
+
+		api.setApiClient(apiClient);
+		try {
+			api.humanreviewStixIdFieldPut(hrItem.getStixId(), hrItem.getFieldName(), hrItem.getFieldValue(), "",
+					hrItem.getFieldName(), "Redact");
+			;
+		} catch (ApiException e) {
+			e.printStackTrace();
+		}
+
+	}
 
 }

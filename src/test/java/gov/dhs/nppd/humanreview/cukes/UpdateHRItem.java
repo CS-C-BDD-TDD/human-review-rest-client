@@ -62,6 +62,13 @@ public class UpdateHRItem {
 		expectedAction = "Edit";
 	}
 
+	@When("^I redact the field$")
+	public void i_redact_the_field() throws Exception {
+		apiCaller.redact_field(authToken, hrItem);
+		expectedStatus = "Redacted";
+		expectedAction = "Redact";
+	}
+
 	@When("^I update Not PII field value to \"([^\"]*)\"$")
 	public void i_update_Not_PII_field_value_to(String acceptedValue) throws Exception {
 		apiCaller.not_pii(authToken, hrItem, acceptedValue);
