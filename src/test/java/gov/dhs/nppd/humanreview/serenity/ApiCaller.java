@@ -4,6 +4,7 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.api.DefaultApi;
 import org.openapitools.client.model.AuthCredentials;
+import org.openapitools.client.model.HumanReviewItem;
 import org.openapitools.client.model.ListOfHumanReviewItems;
 
 import net.thucydides.core.annotations.Step;
@@ -44,6 +45,21 @@ public class ApiCaller {
 			e.printStackTrace();
 		}
 		return new ListOfHumanReviewItems();
+	}
+
+	public void edit_field_value(String authToken, HumanReviewItem hrItem, String acceptedValue) {
+		ApiClient apiClient = new ApiClient();
+		apiClient.setBasePath(System.getProperty("human.review.rest.url"));
+
+		apiClient.addDefaultHeader("token", authToken);
+
+		api.setApiClient(apiClient);
+		try {
+			api.humanreviewStixIdFieldPut(hrItem.getStixId(), hrItem.getFieldName(), hrItem.getFieldValue(),
+					acceptedValue, hrItem.getFieldName(), "Edit");
+		} catch (ApiException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
