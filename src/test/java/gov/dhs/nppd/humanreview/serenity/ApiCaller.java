@@ -46,7 +46,7 @@ public class ApiCaller {
 		}
 		return new ListOfHumanReviewItems();
 	}
-	
+
 	@Step
 	public void edit_field_value(String authToken, HumanReviewItem hrItem, String acceptedValue) {
 		ApiClient apiClient = new ApiClient();
@@ -77,7 +77,24 @@ public class ApiCaller {
 		} catch (ApiException e) {
 			e.printStackTrace();
 		}
+
+	}
+
+	public void confirm_risk(String authToken, HumanReviewItem hrItem, String acceptedValue) {
+		ApiClient apiClient = new ApiClient();
+		apiClient.setBasePath(System.getProperty("human.review.rest.url"));
+
+		apiClient.addDefaultHeader("token", authToken);
+
+		api.setApiClient(apiClient);
+		try {
+			api.humanreviewStixIdFieldPut(hrItem.getStixId(), hrItem.getFieldName(), hrItem.getFieldValue(),
+					acceptedValue, hrItem.getFieldName(), "Confirm Risk");
+		} catch (ApiException e) {
+			e.printStackTrace();
+		}
 		
 	}
+
 
 }

@@ -6,15 +6,18 @@ import static org.hamcrest.Matchers.equalTo;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
 import org.openapitools.client.model.HumanReviewItem;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import gov.dhs.nppd.humanreview.serenity.ApiCaller;
+import net.thucydides.core.annotations.Step;
 import net.thucydides.core.annotations.Steps;
 
-public class UpdateHRitem {
+public class UpdateHRItem {
 
 	private HumanReviewItem hrItem;
 	@Steps
@@ -60,6 +63,12 @@ public class UpdateHRitem {
 	public void i_update_Not_PII_field_value_to(String acceptedValue) throws Exception {
 		apiCaller.not_pii(authToken, hrItem, acceptedValue);
 	}
+	
+	@When("^I update Confirm Risk field value to \"([^\"]*)\"$")
+	public void i_update_Confirm_Risk_field_value_to(String acceptedValue) throws Exception {
+		apiCaller.confirm_risk(authToken, hrItem, acceptedValue);
+	}
+
 
 	@Then("^the item should be as follow:$")
 	public void the_item_should_be_as_follow(List<HumanReviewItem> expectedHrItems) throws Exception {
