@@ -56,6 +56,11 @@ public class UpdateHRitem {
 		apiCaller.edit_field_value(authToken, hrItem, acceptedValue);
 	}
 
+	@When("^I update Not PII field value to \"([^\"]*)\"$")
+	public void i_update_Not_PII_field_value_to(String acceptedValue) throws Exception {
+		apiCaller.not_pii(authToken, hrItem, acceptedValue);
+	}
+
 	@Then("^the item should be as follow:$")
 	public void the_item_should_be_as_follow(List<HumanReviewItem> expectedHrItems) throws Exception {
 
@@ -73,6 +78,7 @@ public class UpdateHRitem {
 
 		apiCaller.edit_field_value(authToken, hrItem, hrItem.getFieldValue());
 
-		assertThat(expectedHrItems.get(0).getFieldValue(), equalTo(actualHrItems.get(0).getFieldValue()));
+		assertThat(actualHrItems.get(0).getFieldValue().replaceAll("\n", ""),
+				equalTo(expectedHrItems.get(0).getFieldValue()));
 	}
 }

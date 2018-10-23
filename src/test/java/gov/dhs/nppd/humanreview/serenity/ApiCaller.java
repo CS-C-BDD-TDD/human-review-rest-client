@@ -46,7 +46,8 @@ public class ApiCaller {
 		}
 		return new ListOfHumanReviewItems();
 	}
-
+	
+	@Step
 	public void edit_field_value(String authToken, HumanReviewItem hrItem, String acceptedValue) {
 		ApiClient apiClient = new ApiClient();
 		apiClient.setBasePath(System.getProperty("human.review.rest.url"));
@@ -60,6 +61,23 @@ public class ApiCaller {
 		} catch (ApiException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Step
+	public void not_pii(String authToken, HumanReviewItem hrItem, String acceptedValue) {
+		ApiClient apiClient = new ApiClient();
+		apiClient.setBasePath(System.getProperty("human.review.rest.url"));
+
+		apiClient.addDefaultHeader("token", authToken);
+
+		api.setApiClient(apiClient);
+		try {
+			api.humanreviewStixIdFieldPut(hrItem.getStixId(), hrItem.getFieldName(), hrItem.getFieldValue(),
+					acceptedValue, hrItem.getFieldName(), "Not PII");
+		} catch (ApiException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }
