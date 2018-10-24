@@ -59,6 +59,8 @@ public class HumanReviewItem {
    */
   @JsonAdapter(ActionEnum.Adapter.class)
   public enum ActionEnum {
+	BLANK(""),
+	
     CONFIRM_RISK("Confirm Risk"),
     
     EDIT("Edit"),
