@@ -22,7 +22,8 @@ Building the API client library requires:
 Use this command to run all the serenity tests:
 
 ```bash
-mvn clean -Dtest=gov.dhs.nppd.humanreview.SerenityTest -Dhuman.review.rest.url=http://localhost:8080/api/v1 -Dhr.regular.username=User1 -Dhr.regular.password=Pass1 test
+mvn clean -Dtest=gov.dhs.nppd.humanreview.SerenityTest -Dhuman.review.rest.url=http://human-review-backend-labs-test.apps.domino.rht-labs.com/api/v1 -Dhr.regular.username=User1 -Dhr.regular.password=Pass1 clean test
+
 ```
 Then, you want to generate a Serenity report using this command:
 

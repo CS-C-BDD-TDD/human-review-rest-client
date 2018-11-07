@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.openapitools.client.model.HumanReviewItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -13,6 +15,7 @@ import gov.dhs.nppd.humanreview.serenity.Verifier;
 import net.thucydides.core.annotations.Steps;
 
 public class UpdateHRItem {
+	private static final Logger logger = LoggerFactory.getLogger(UpdateHRItem.class);
 
 	private HumanReviewItem hrItem;
 	@Steps
@@ -24,22 +27,28 @@ public class UpdateHRItem {
 	private Verifier verifier;
 	private String expectedStatus;
 	private String expectedAction;
-
+	
 	@Given("^I have an existing Human Review Item with the following information:$")
 	public void i_have_an_existing_Human_Review_Item_with_the_following_information(List<HumanReviewItem> hrItems)
 			throws Exception {
 		this.hrItem = hrItems.get(0);
+		logger.info("stix_id:" + hrItem.getStixId());
+		logger.info("field_name:" + hrItem.getFieldName());
+		logger.info("field_value:" + hrItem.getFieldValue());
 
 		authToken = apiCaller.calls_userPut_method(System.getProperty("hr.regular.username"),
 				System.getProperty("hr.regular.password"));
 		List<HumanReviewItem> hrPendingItems = apiCaller.get_human_pending_list(authToken);
 
+		logger.info("# pendings: " + hrPendingItems.size());
 		List<HumanReviewItem> actualHrItems = hrPendingItems.stream()
 				.filter(item -> item.getStixId().equals(hrItem.getStixId())).collect(Collectors.toList());
 
+		logger.info("# fields: " + actualHrItems.size());
 		actualHrItems = actualHrItems.stream().filter(item -> item.getFieldName().equals(hrItem.getFieldName()))
 				.collect(Collectors.toList());
 
+		logger.info("# fields: " + actualHrItems.size());
 		if (actualHrItems.isEmpty()) {
 			throw new Exception("Cannot locate the item to be updated!");
 		}

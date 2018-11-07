@@ -10,10 +10,12 @@ import org.openapitools.client.model.ListOfHumanReviewItems;
 import net.thucydides.core.annotations.Step;
 
 public class ApiCaller {
+	private static final long MAX_DELAY = 2000L;
 	private final DefaultApi api = new DefaultApi();
 
 	@Step
 	public String calls_userPut_method(String username, String password) {
+		delay(MAX_DELAY);
 		ApiClient apiClient = new ApiClient();
 		apiClient.setBasePath(System.getProperty("human.review.rest.url"));
 
@@ -32,6 +34,7 @@ public class ApiCaller {
 
 	@Step
 	public ListOfHumanReviewItems get_human_pending_list(String authenticatedToken) {
+		delay(MAX_DELAY);
 		ApiClient apiClient = new ApiClient();
 		apiClient.setBasePath(System.getProperty("human.review.rest.url"));
 
@@ -49,6 +52,7 @@ public class ApiCaller {
 
 	@Step
 	public void edit_field_value(String authToken, HumanReviewItem hrItem, String acceptedValue) {
+		delay(MAX_DELAY);
 		ApiClient apiClient = new ApiClient();
 		apiClient.setBasePath(System.getProperty("human.review.rest.url"));
 
@@ -65,6 +69,7 @@ public class ApiCaller {
 
 	@Step
 	public void not_pii(String authToken, HumanReviewItem hrItem, String acceptedValue) {
+		delay(MAX_DELAY);
 		ApiClient apiClient = new ApiClient();
 		apiClient.setBasePath(System.getProperty("human.review.rest.url"));
 
@@ -81,6 +86,7 @@ public class ApiCaller {
 	}
 
 	public void confirm_risk(String authToken, HumanReviewItem hrItem, String acceptedValue) {
+		delay(MAX_DELAY);
 		ApiClient apiClient = new ApiClient();
 		apiClient.setBasePath(System.getProperty("human.review.rest.url"));
 
@@ -97,6 +103,7 @@ public class ApiCaller {
 	}
 
 	public void redact_field(String authToken, HumanReviewItem hrItem) {
+		delay(MAX_DELAY);
 		ApiClient apiClient = new ApiClient();
 		apiClient.setBasePath(System.getProperty("human.review.rest.url"));
 
@@ -113,4 +120,20 @@ public class ApiCaller {
 
 	}
 
+	/**
+	 * We are providing this delay because the backend seems to not be able to keep
+	 * up with the speedy requests. Maybe it is over a slow internet.
+	 * 
+	 * We got intermitten and random errors.
+	 * 
+	 * @param delayInMiliseconds
+	 */
+	private void delay(long delayInMiliseconds) {
+		try {
+			Thread.sleep(delayInMiliseconds);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
