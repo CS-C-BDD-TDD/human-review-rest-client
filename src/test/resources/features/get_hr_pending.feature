@@ -3,7 +3,6 @@ Feature: Get HR Pending
 	I need to implement the HR Pending List API specification, 
 	so that I can provide the data to HR Pending List to frontend.
 
-@Kiet_WIP 
 Scenario: Get pending list 
 	Given I want to retrieve a pending list of fields 
 	And there exists at least one field 
