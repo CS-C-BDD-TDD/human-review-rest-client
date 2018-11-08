@@ -53,10 +53,7 @@ spec:
     stage('Run Acceptance Tests') {
       steps {
         sh '/usr/local/bin/generate_container_user'
-        def retVal = sh(
-        	returnStatus: true, 
-        	script: "/opt/rh/rh-maven33/root/usr/bin/mvn clean -Dtest=gov.dhs.nppd.humanreview.SerenityTest -Dhuman.review.rest.url=http://human-review-backend-labs-test.apps.domino.rht-labs.com/api/v1 -Dhr.regular.username=User1 -Dhr.regular.password=Pass1 clean test"
-       	)
+        def retVal = sh(returnStatus: true, script: "/opt/rh/rh-maven33/root/usr/bin/mvn clean -Dtest=gov.dhs.nppd.humanreview.SerenityTest -Dhuman.review.rest.url=http://human-review-backend-labs-test.apps.domino.rht-labs.com/api/v1 -Dhr.regular.username=User1 -Dhr.regular.password=Pass1 clean test")
         	                                         
         sh """/opt/rh/rh-maven33/root/usr/bin/mvn -DskipTests verify"""
         publishHTML(target: [
